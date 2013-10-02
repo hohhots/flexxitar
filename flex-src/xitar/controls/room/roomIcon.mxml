@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer 
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx"
+		skinClass="xitar.controls.skins.RoomIconSkin"
+		width="129" height="57" creationComplete="init()">
+ 	<fx:Style>
+        .roomid{
+        	top : 30px;
+        }
+        .roomidtext{
+        	font-size : 12px;
+        	color : #ffffff;
+        }
+        .personnum{
+        	top : 0;
+			right:3px;
+        }
+        .personnumtext{
+        	font-size : 12px;
+        	color : #666666;
+        }
+    </fx:Style>
+    <fx:Script>
+    	<![CDATA[
+    		import mx.controls.Alert;
+			
+    		public function init():void{
+    			addEvent();
+    		}
+    		public function addEvent():void{
+    			addEventListener(MouseEvent.MOUSE_OVER,mouseOver);
+    			addEventListener(MouseEvent.MOUSE_OUT,mouseOut);
+    			addEventListener(MouseEvent.CLICK,mouseClick);
+    		}
+    		public function removeEvent():void{
+    			removeEventListener(MouseEvent.MOUSE_OVER,mouseOver);
+    			removeEventListener(MouseEvent.MOUSE_OUT,mouseOut);
+    			removeEventListener(MouseEvent.CLICK,mouseClick);
+    			this.buttonMode=false;
+    		}
+    		public function mouseOver(event:Event):void{
+				//this.setStyle("borderColor","#990000");			
+    		}
+    		public function mouseOut(event:Event):void{
+    			//this.setStyle("borderColor","#abca31");
+    		}
+    		public function mouseClick(event:Event):void{
+    			//removeEvent();
+    			//this.setStyle("borderColor","#000000");
+    		}
+    	]]>
+    </fx:Script>
+
+    <s:HGroup styleName="roomid" height="20" width="44"
+    	horizontalAlign="center" verticalAlign="middle" horizontalCenter="-31"
+    	paddingTop="0">
+    	<s:Label text="1" styleName="roomidtext" />
+    </s:HGroup>
+    <s:HGroup styleName="personnum" width="80"  horizontalAlign="right"
+			  paddingTop="3" paddingRight="3" paddingBottom="3" paddingLeft="3"  >
+    	<s:Label text="471" styleName="personnumtext" />
+    </s:HGroup>
+</s:SkinnableContainer>

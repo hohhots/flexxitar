@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   width="100%" height="100%" creationComplete="doInit()">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script><![CDATA[
+		import mx.controls.Alert;
+		
+		private var xBoard : Xboard;
+		
+		public function doInit() : void{
+			try {
+				xBoard = Xboard.getInstance(this);
+			} catch (error:Error) {
+				Alert.show(error.message);
+			} finally {}
+		}
+	]]>
+	</fx:Script>
+	
+</mx:Module>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s ="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="600" minHeight="400" backgroundColor="#ffffff"
+			   applicationComplete="xrun()"
+			   width="100%" height="100%" resize="onResize()" >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+    <fx:Style>
+        .wait{
+        	backgroundAlpha : 1;
+        	backgroundColor : #cc0000;
+        	font-size : 16px;
+        	color : #ffffff;
+        	top : 5px;
+        	right : 5px;
+        }
+    </fx:Style>
+ 
+	<fx:Script><![CDATA[
+		import flash.display.DisplayObject;
+		import flash.events.Event;
+		import flash.events.ProgressEvent;
+		import flash.net.URLLoader;
+		import flash.net.URLRequest;
+		import flash.net.URLRequestMethod;
+
+		import mx.collections.ArrayCollection;
+		import mx.containers.Box;
+		import mx.containers.BoxDirection;
+		import mx.containers.Canvas;
+		import mx.containers.Panel;
+		import mx.controls.*;
+		import mx.core.IUIComponent;
+		import mx.events.ResizeEvent;
+		import mx.managers.PopUpManager;
+		
+		import xitar.*;
+		import xitar.events.SessionEvent;
+		
+		public var xitarMain:XitarMain;
+		
+		[Bindable]
+        public var swfUrl:String;
+        [Bindable]
+        public var downPerc:int;
+		[Bindable]
+		public var appWidth:int;
+		[Bindable]
+		public var appHeight:int;
+		
+	 
+		private var loadTimes:int  = 0; //number of try to load modules num.
+
+		public function xrun() : void{
+			xitarMain = XitarMain.getInstance(this);
+		}
+		
+		public function setSwfUrl() : void{
+			mainModuleLoader.unloadModule();
+			swfUrl = xitarMain.getSwfFileName();//Alert.show(swfUrl);
+		}
+		
+		public function refreshWebPage() : void{
+			var url:String = ExternalInterface.call('window.location.href.toString');
+			var request:URLRequest = new URLRequest(url);
+			try {
+				navigateToURL(request, '_self');
+			} catch (e:Error) {
+				Alert.show("Refresh page - Error occurred!");
+			}
+		}
+		
+		public function setDownPerc(n:int) : void{
+			downPerc = n;
+		}
+		
+		public function displayWait(b:Boolean) : void{
+			if(b == true){
+				dWait.visible = true;
+				dWait.includeInLayout = true;
+				mainContent.visible = false;
+				mainContent.includeInLayout = false;
+			}else{
+				dWait.visible = false;
+				dWait.includeInLayout = false;
+				mainContent.visible = true;
+				mainContent.includeInLayout = true;
+				
+			}
+		}
+		
+		public function displayMask(val:Boolean) : void{
+			if(val){
+				xmask.visible = true;
+				xmask.includeInLayout = true;
+			}else{
+				xmask.visible = false;
+				xmask.includeInLayout = false;
+			}
+		}
+		
+		public function onResize() : void{
+			appWidth = width;
+			appHeight = height;
+		}
+		
+		//module loader function -----------------------------------------------------------
+		public function moduleUrlChanged(e:Event):void{
+			displayWait(true);
+		}
+		public function moduleLoadError(e:Event):void{
+			if(loadTimes < MainConstant.ACCESS_TIMES){
+				loadTimes++;
+				mainModuleLoader.loadModule();
+			}else{
+				loadTimes = 0;
+				throw new Error(MainLang.LOAD_MODULE_ERROR);
+			}
+		}
+		public function moduleLoadProgress(e:ProgressEvent):void{
+			setDownPerc((e.bytesLoaded/e.bytesTotal) * 100);
+		}
+		public function moduleLoadComplete(e:Event):void{
+			loadTimes = 0;
+			displayWait(false);
+		} 
+	]]>
+	</fx:Script>
+	<s:HGroup id="dWait" width="100%" horizontalAlign="center"
+			  paddingTop="3" paddingRight="3" paddingBottom="3" paddingLeft="3" styleName="wait">
+			<s:Label styleName="wait" text="{downPerc}%" width="120" textAlign="center" 
+			paddingTop="4" paddingBottom="2" />	
+	</s:HGroup> 
+	<s:VGroup id="mainContent" horizontalAlign="center" verticalAlign="middle"
+			  horizontalCenter="0" verticalCenter="0" includeInLayout="false" visible="false">
+		<mx:ModuleLoader id="mainModuleLoader" url="{swfUrl}" 
+			urlChanged="moduleUrlChanged(event)"
+			error="moduleLoadError(event)"
+			progress="moduleLoadProgress(event)" 
+			ready="moduleLoadComplete(event)" />
+	</s:VGroup>
+	<s:BorderContainer id="xmask" horizontalCenter="0"
+			  left="0" right="0" top="0" bottom="0" alpha="0" 
+			  includeInLayout="false" visible="false">
+		<s:Rect left="0" right="0" top="0" bottom="0">
+			<s:fill>
+				<s:SolidColor color="#ff0000"/>
+			</s:fill>
+		</s:Rect>
+	</s:BorderContainer>
+</s:Application>

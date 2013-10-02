@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s ="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx"
+					  skinClass="xitar.controls.skins.TitleBarSkin"
+					  initialize="init()"
+					  creationComplete="run()">
+
+	<fx:Script><![CDATA[
+		
+		import xitar.*;
+		
+		import mx.controls.Alert;
+		
+		[Bindable]		
+		private var _personID : String;
+		
+		private var _xTitleBar : XtitleBar;
+		
+		private function init():void {
+			var xml:XML = new XML(new XMLDocument(MainModel.initData));
+			var player:XMLList = xml.child(MainConstant.XML_PLAYER_ELEMENT); 
+			personID = player.@id;
+		}
+		
+		public function run() : void{
+			try {
+				_xTitleBar = XtitleBar.getInstance(this);
+			} catch (error:Error) {
+				Alert.show(error.message);
+			} finally {}
+		}
+		
+		[Bindable]
+		public function get personID():String {
+			return _personID;
+		}
+		public function set personID(val:String):void {
+			_personID = val;;
+		}
+		
+		[Bindable]
+		public function get xTitleBar():XtitleBar {
+			return _xTitleBar;
+		}
+		public function set xTitleBar(val:XtitleBar):void {
+			_xTitleBar = val;;
+		}
+		
+		override protected function getCurrentSkinState():String {
+			//just return the component's current state to force the skin to mirror it
+			return currentState;
+		}
+	]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[SkinState("normal")]
+		[SkinState("disabled")]
+		[SkinState("linkActive")]
+		[SkinState("linkGood")]
+		[SkinState("linkBad")]
+		[SkinState("linkDown")]
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal" enterState="invalidateSkinState()" />
+		<s:State name="disabled" enterState="invalidateSkinState()" />
+		<s:State name="linkActive" enterState="invalidateSkinState()" />
+		<s:State name="linkGood" enterState="invalidateSkinState()" />
+		<s:State name="linkBad" enterState="invalidateSkinState()" />
+		<s:State name="linkDown" enterState="invalidateSkinState()" />
+	</s:states>
+	
+</s:SkinnableContainer>

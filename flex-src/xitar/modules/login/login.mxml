@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s ="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   width="100%" height="100%" creationComplete="doInit()">
+	
+	<fx:Script><![CDATA[
+		import mx.controls.Alert;
+		
+		import xitar.*;
+
+		public var LoginFail : Boolean = false;
+		
+		private var xLogin : Xlogin;
+		private var xPass : String;
+	
+		public function doInit():void{
+			try {
+				xLogin = Xlogin.getInstance(this);
+			} catch (error:Error) {
+				Alert.show(error.message);
+			} finally {}
+		}
+		
+		public function sessionFail():void{
+			xPass = loginInput.text;
+			
+			LoginFail = true;
+			fail.visible = true;
+			fail.includeInLayout=true;
+			
+			wait.visible = false;
+			wait.includeInLayout=false;
+		}
+		
+		public function KeyDown(e:KeyboardEvent):void{
+			if((LoginFail == true) && (xPass != loginInput.text)){
+				LoginFail = false;
+				fail.visible = false;
+			}
+		}
+		
+		public function KeyUp(e:KeyboardEvent):void{
+			var kc:int = e.keyCode;
+			if(kc == 13){
+				if(LoginFail == false){
+					var val:String = MainUtil.removeSpaces(loginInput.text);
+					val = MainUtil.removeSpaces(val);
+					if(val != ""){
+						xLogin.keyUp(e,val);
+						
+						wait.visible = true;
+						wait.includeInLayout=true;
+						fail.includeInLayout=false;
+					}
+				}
+			}else{
+				KeyDown(e);
+			}
+		}
+	]]>
+	</fx:Script>
+
+	<s:SkinnableContainer id="loginp" skinClass="xitar.modules.skins.LoginSkin">
+		<s:HGroup verticalAlign="middle" gap="0" paddingBottom="0" paddingLeft="0" paddingTop="0" paddingRight="0">
+			<s:Label id="logo1" height="30" width="48" text="NM" fontSize="30" color="#ffffcc" verticalAlign="middle">
+				<s:filters>
+					<s:DropShadowFilter distance="5" angle="45"/>
+				</s:filters>
+			</s:Label>
+			<s:Label id="logo2" height="23" width="32" text="114" fontSize="20" color="#ffffcc"  verticalAlign="bottom">
+				<s:filters>
+					<s:DropShadowFilter distance="5" angle="45" />
+				</s:filters>
+			</s:Label>
+		</s:HGroup>
+		<s:HGroup verticalAlign="middle" gap="3">
+			<s:BitmapImage source="@Embed(source='icons/lock.png')" width="20" height="20" />
+			<s:TextInput id="loginInput" displayAsPassword="true" fontSize="12" width="100" 
+				paddingTop="3" maxChars="20" keyDown="KeyDown(event)" keyUp="KeyUp(event)" />
+			<mx:ProgressBar id="wait" label="" labelPlacement="center" 
+							indeterminate="true" width="20" height="15" visible="false" />
+			<s:BitmapImage id="fail" source="@Embed(source='icons/denied.png')" width="20" height="20" visible="false" includeInLayout="false" />
+		</s:HGroup>
+	</s:SkinnableContainer>
+</mx:Module>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableComponent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="60"
+		 skinClass="xitar.controls.skins.RoomSkin" creationComplete="xrun()">
+
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.PropertyChangeEvent;
+			import mx.managers.CursorManager;
+			
+			private var xroom : XRoom;
+			
+			private var _xid:String = "0";
+			private var _xmax:String = "0";
+			private var _xplayers:String = "0";
+			private var _xselected:Boolean = false;
+				
+			[Bindable]
+			public function get xid():String {
+				return _xid;
+			}
+			public function set xid(val:String):void {
+				_xid = val;;
+			}
+			
+			[Bindable]
+			public function get xmax():String {
+				return _xmax;
+			}
+			public function set xmax(val:String):void {
+				_xmax = val;;
+			}	
+			
+			[Bindable]
+			public function get xplayers():String {
+				return _xplayers;
+			}
+			public function set xplayers(val:String):void {
+				_xplayers = val;;
+			}
+			
+			[Bindable]
+			public function get xselected():Boolean {
+				return _xselected;
+			}
+			public function set xselected(val:Boolean):void {
+				_xselected = val;;
+			}	
+			
+			private function xrun():void {
+				id = "room" + _xid;
+				addEvent();
+				//Alert.show(this._xselected.toString());
+				try {
+					xroom = XRoom.getInstance(this);
+				} catch (error:Error) {
+					Alert.show(error.message);
+				} finally {}
+			}
+			
+			public function addEvent():void{
+				addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, updateState); 
+				addEventListener(MouseEvent.MOUSE_OVER,mouseOver, false, 0);
+				addEventListener(MouseEvent.MOUSE_OUT,mouseOut, false, 0);
+				addEventListener(MouseEvent.MOUSE_DOWN,mouseDown, false, 0);
+				addEventListener(MouseEvent.CLICK,mouseClick, false, 0);
+				this.buttonMode=true;
+				currentState = "normal";
+			}
+			
+			private function updateState(event:PropertyChangeEvent):void{
+				if(event.property.toString() == "xplayers"){
+					XRoom.clickedState = false;
+				}
+
+				if(event.property.toString() == "xselected"){
+					if(xselected){
+						removeEvent();
+					}else{
+						addEvent();
+					}
+				}
+			}
+			
+			private function removeEvent():void{
+				removeEventListener(MouseEvent.MOUSE_OVER,mouseOver);
+				removeEventListener(MouseEvent.MOUSE_OUT,mouseOut);
+				removeEventListener(MouseEvent.MOUSE_DOWN,mouseDown);
+				removeEventListener(MouseEvent.CLICK,mouseClick);
+				this.currentState = "selected";
+				this.buttonMode=false;
+			}
+			
+			private function mouseOver(event:Event):void{
+				this.currentState = "hovered";
+			}
+			private function mouseOut(event:Event):void{
+				this.currentState = "normal";
+			}
+			private function mouseDown(event:Event):void{
+				this.currentState = "down";
+			}
+			private function mouseClick(event:Event):void{
+				if(!XRoom.clickedState){
+					removeEvent();
+					xroom.roomClicked();
+				}
+			}
+			
+			override protected function getCurrentSkinState():String {
+				//just return the component's current state to force the skin to mirror it
+				return currentState;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[SkinState("normal")]
+		[SkinState("hovered")]
+		[SkinState("down")]
+		[SkinState("selected")]
+		[SkinState("normalload")]
+		[SkinState("overload")]
+	</fx:Metadata>
+
+	<s:states>
+		<s:State name="normal" enterState="invalidateSkinState()" />
+		<s:State name="hovered" enterState="invalidateSkinState()" />
+		<s:State name="down" enterState="invalidateSkinState()" />
+		<s:State name="selected" enterState="invalidateSkinState()" />
+	</s:states>
+
+</s:SkinnableComponent>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:desk="xitar.controls.room.desk.*"
+				   skinClass="xitar.controls.skins.DesksSkin"
+				   width="100%" height="100%" 
+				   initialize="init()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+		
+			[Bindable] public var productData:ArrayCollection;
+		
+			private function init():void {
+		
+				productData = new ArrayCollection();
+				productData.addItem({"id":"1"});
+				productData.addItem({"id":"2"});
+				productData.addItem({"id":"3"});
+				productData.addItem({"id":"4"});
+				productData.addItem({"id":"5"});
+				productData.addItem({"id":"6"});
+				productData.addItem({"id":"7"});
+				productData.addItem({"id":"8"});
+				productData.addItem({"id":"9"});
+				productData.addItem({"id":"10"});
+				productData.addItem({"id":"11"});
+				productData.addItem({"id":"12"});
+				productData.addItem({"id":"13"});
+		}
+		]]>
+	</fx:Script>
+
+	<s:DataGroup itemRenderer="xitar.controls.room.desk.desk" dataProvider="{productData}" width="100%">
+		<s:layout>
+			<s:TileLayout horizontalGap="20" verticalGap="20"
+				  horizontalAlign="center" verticalAlign="middle"  />
+		</s:layout>     
+	</s:DataGroup>
+</s:SkinnableContainer>

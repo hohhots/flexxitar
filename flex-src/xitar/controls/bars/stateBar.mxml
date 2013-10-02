@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"  
+	height="29" width="100%" verticalAlign="middle" backgroundColor="#abca31"
+	paddingTop="0" paddingLeft="3" paddingRight="3" paddingBottom="1" horizontalGap="3">
+	<mx:Script><![CDATA[
+		[Bindable]
+		private var personID : String = "0000";
+	]]>
+	</mx:Script>
+	<mx:Image id="personImage" source="@Embed(source='../../images/person.png')" width="25" height="25" />
+	<mx:Label text="{personID}" color="#000000" fontSize="14" />
+	<mx:Spacer width="100%" />
+	<mx:Button id="roomBack" width="22" height="22" toggle="true"  
+		icon="@Embed(source='../../images/roomback.png')"
+		overIcon="@Embed(source='../../images/roombackover.png')" />
+	<mx:Button id="roomExit" width="22" height="22" toggle="true"  
+		icon="@Embed(source='../../images/exit.png')"
+		overIcon="@Embed(source='../../images/exitover.png')" />
+</mx:HBox>

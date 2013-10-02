@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("xitar.controls.bars.titleBar")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+		<s:State name="linkActive" />
+		<s:State name="linkGood" />
+		<s:State name="linkBad" />
+		<s:State name="linkDown" />
+	</s:states>
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient>
+				<s:GradientEntry color="0x6b9a01" />
+				<s:GradientEntry color="0xabca31" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<s:Group id="contentGroup" left="0" right="0" top="0" bottom="0"
+			 width="{parentApplication.appWidth}">
+		<s:layout>
+			<s:HorizontalLayout gap="1" horizontalAlign="left" verticalAlign="middle"
+				paddingTop="1" paddingRight="3" paddingBottom="1" paddingLeft="3"/>
+		</s:layout>
+		
+		<s:BitmapImage source="@Embed(source='../../images/person.png')" width="25" height="25">
+			<s:filters>
+				<s:DropShadowFilter distance="5" angle="45"/>
+			</s:filters>
+		</s:BitmapImage>
+		
+		<s:Label text="{hostComponent.personID}" fontSize="16" color="#ffffcc" fontWeight="bold">
+			<s:filters>
+				<s:DropShadowFilter distance="5" angle="45"/>
+			</s:filters>
+		</s:Label> 
+		
+		<mx:Spacer width="100%" />
+		<mx:ProgressBar width="115" height="20" label="" labelPlacement="center" indeterminate="true"
+						excludeFrom="linkGood,linkBad,linkDown"/>
+		<s:BitmapImage source="@Embed(source='../../images/green_link.png')" width="22" height="22"
+					   excludeFrom="linkActive,linkBad,linkDown" />
+		<s:BitmapImage source="@Embed(source='../../images/orange_link.png')" width="22" height="22" 
+					   excludeFrom="linkActive,linkGood,linkDown"/>
+		<s:BitmapImage source="@Embed(source='../../images/red_link.png')" width="22" height="22" 
+					   excludeFrom="linkActive,linkGood,linkBad"/>
+		<mx:Spacer width="22" />
+		<s:Button skinClass="xitar.controls.skins.CloseButtonSkin" click="hostComponent.xTitleBar.exitHandler(event)" />
+	</s:Group>
+	
+</s:SparkSkin>

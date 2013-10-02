@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    1: IDE: netbeans6.8;flexbuilder3
+    2: copy ant task file of (svn,flex) to D:\NetBeans6.8\java3\ant\lib directory.
+    3: netbeans -> tools -> servers -> enable comet support
+-->
+<project name="flexxitar" basedir="..">
+    <description>
+        mongolian flex chess project build file for java source.
+    </description>
+ 
+    <!--  all properties are in build.properties -->
+    <property file="ant/mybuild-main.properties" />
+
+    <!--  path to other java library -->
+    <path id="project.class.path">
+        <!--
+        <pathelement path="${glassfish.dir}/lib/javaee.jar"/>
+        <pathelement path="${glassfish.dir}/lib/appserv-rt.jar"/>
+        -->
+        <fileset dir= "${glassfish.dir}/lib" >
+           <include name= "*.jar" />
+        </fileset>
+    </path>
+
+    <!-- copy flex chess project's web files to build dir -->
+    <target name="copy" description="copy web files to build dir" depends="compile,copy-flex">
+        <copy todir="${config.build.dir}" flatten="true">
+            <fileset dir="${src.src.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="${web-inf.build.dir}">
+            <fileset dir="${web-inf.src.dir}">
+                <exclude name="**/.svn"/>
+                <exclude name="**/*.db"/>
+            </fileset>
+        </copy>
+        <copy todir="${web.build.dir}" failonerror="false">
+            <fileset dir="${web.src.dir}">
+                <include name="**/*.jsp"/>
+            </fileset>
+        </copy>
+        <copy todir="${html.build.dir}" failonerror="false">
+            <fileset dir="${web.src.dir}">
+                <include name="**/*.html"/>
+            </fileset>
+        </copy>
+        <copy todir="${image.build.dir}" failonerror="false">
+            <fileset dir="${image.src.dir}">
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.png"/>
+            </fileset>
+        </copy>
+        <copy todir="${js.build.dir}" flatten="true"  failonerror="false">
+            <fileset dir="${js.src.dir}">
+                <include name="**/*.js"/>
+            </fileset>
+        </copy>
+        <copy todir="${css.build.dir}" flatten="true"  failonerror="false">
+            <fileset dir="${css.src.dir}">
+                <include name="**/*.css"/>
+            </fileset>
+        </copy>
+        <touch file="${web.build.dir}/.reload" />
+    </target>
+
+    <!-- compile all java classes-->
+    <target name="compile" depends="prepareCompile">
+        <javac srcdir="${src.src.dir}"  destdir="${src.build.dir}">
+            <classpath refid="project.class.path"/>
+        </javac>
+        <touch file="${web.build.dir}/.reload" />
+    </target>
+
+    <!-- build mschess project -->
+    <target name="build"  depends="prepareBuild">
+        <antcall target="copy" />
+        <antcall target="copy-flex" />
+        <antcall target="compile" />
+    </target>
+
+    <!-- Undeploy  in glassfish project dir target -->
+    <target name="undeploy">
+        <exec executable="${asadmin}"   vmlauncher="false">
+            <arg value="--user" />
+            <arg value="${as.user}" />
+            <arg value="--passwordfile" />
+            <arg value="${basedir}/${as.passwordfile}" />
+            <arg value="undeploy" />
+            <arg value="${ant.project.name}" />
+        </exec>
+    </target>
+
+    <!-- Hot deploy in glassfish project dir target -->
+    <target name="hotdeploy"  depends="undeploy">
+        <exec executable="${asadmin}"  vmlauncher="false">
+            <arg value="--user" />
+            <arg value="${as.user}" />
+            <arg value="--passwordfile" />
+            <arg value="${basedir}/${as.passwordfile}" />
+            <arg value="deploy" />
+            <arg value="--name" />
+            <arg value="${ant.project.name}" />
+            <arg value="${web.build.dir}" />
+        </exec>
+    </target>
+
+    <!-- make build dir -->
+    <target name="prepareBuild">
+        <delete dir="${build.dir}" />
+        <mkdir dir="${build.dir}" />
+    </target>
+
+    <target name="prepareCompile">
+        <mkdir dir="${src.build.dir}" />
+    </target>
+
+    <!-- import other build files -->
+    <import file="flexbuild-main.xml"/>
+    <import file="svnbuild.xml"/>
+</project>

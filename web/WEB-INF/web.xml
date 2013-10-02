@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>flexxitar</display-name>
+    <!-- Listenet -->
+    <listener>
+        <listener-class>com.nm114.xitar.listeners.SessionListener</listener-class>
+    </listener>
+    <!-- filter -->
+    <filter>
+        <filter-name>accessStageFilter</filter-name>
+        <filter-class>com.nm114.xitar.filters.accessStageFilter</filter-class>
+    </filter>
+    <!-- filter mapping -->
+    <filter-mapping>
+        <filter-name>accessStageFilter</filter-name>
+        <url-pattern>/do/*</url-pattern>
+    </filter-mapping>
+    <!-- servlet -->
+    <servlet>
+        <servlet-name>SessionServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.SessionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DataServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.DataServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ExitServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.ExitServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SwfServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.SwfServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>BuildingLongpullServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.longpull.BuildingLongpullServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>RoomLongpullServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.longpull.RoomLongpullServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>RoomActionServlet</servlet-name>
+        <servlet-class>com.nm114.xitar.servlets.action.RoomActionServlet</servlet-class>
+    </servlet>
+    <!-- servlet mapping -->
+    <servlet-mapping>
+        <servlet-name>SessionServlet</servlet-name>
+        <url-pattern>/do/session/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DataServlet</servlet-name>
+        <url-pattern>/do/data/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/do/login/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExitServlet</servlet-name>
+        <url-pattern>/do/exit/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SwfServlet</servlet-name>
+        <url-pattern>/do/swf/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuildingLongpullServlet</servlet-name>
+        <url-pattern>/do/longpull/building/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoomLongpullServlet</servlet-name>
+        <url-pattern>/do/longpull/room/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoomActionServlet</servlet-name>
+        <url-pattern>/do/action/room/*</url-pattern>
+    </servlet-mapping>
+    <!-- welcome files list -->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    <session-config>
+        <session-timeout>35</session-timeout>
+    </session-config>
+</web-app>

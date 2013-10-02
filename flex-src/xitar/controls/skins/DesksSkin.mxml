@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	xmlns:s="library://ns.adobe.com/flex/spark" alpha.disabled="0.5">
+	
+	<fx:Metadata>
+		<![CDATA[ 
+		[HostComponent("xitar.controls.room.Desks")]
+		]]>
+	</fx:Metadata> 
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<!-- layer 1: border -->
+	<!-- layer 2: background fill -->
+	<!-- layer 3: content -->
+	
+	<s:Rect left="0" right="0" top="0" bottom="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x696996" alpha="0.50" weight="1" />
+		</s:stroke>
+	</s:Rect>
+
+	<s:Rect id="background" left="1" top="1" right="1" bottom="1">
+		<s:fill>
+			<s:SolidColor id="bgFill" color="0x696996"/>
+		</s:fill>
+	</s:Rect>
+
+	<s:Scroller height="100%" width="100%">    
+		<s:HGroup id="contentGroup" paddingTop="15" paddingLeft="15" paddingBottom="15" />
+	</s:Scroller>
+</s:Skin>
+
+

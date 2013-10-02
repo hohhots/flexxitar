@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true">
+	<s:BorderContainer>
+		<s:filters>
+			<s:DropShadowFilter/>
+		</s:filters>
+	</s:BorderContainer>
+	
+	<s:BorderContainer width="120" height="130" backgroundColor="0x3b6a01" filters="{[new DropShadowFilter(10,30,0x333333,1)]}">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="center" verticalAlign="middle" />       
+		</s:layout>
+
+		<s:Label text="{data.id}" fontWeight="bold" fontSize="30" color="#999999" />
+	</s:BorderContainer>
+</s:ItemRenderer>

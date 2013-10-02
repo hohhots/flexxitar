@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnableContainer
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:room="xitar.controls.room.*"
+		skinClass="xitar.controls.skins.RoomsSkin"
+		height="100%" width="130" 
+		initialize="init()" creationComplete="xrun()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.*;
+			import mx.controls.Alert;
+			
+			import xitar.*;
+
+			[Bindable] 
+			public var rooms:ArrayCollection = new ArrayCollection();
+			
+			private var xrooms : XRooms;
+			
+			private function init():void {
+				rooms = MainModel.getRoomsState();
+			}
+			
+			private function xrun():void {
+				if(rooms.length == 0){
+					visible =false;
+					includeInLayout = false;
+				}
+				
+				try {
+					xrooms = XRooms.getInstance(this);
+				} catch (error:Error) {
+					Alert.show(error.message);
+				} finally {}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:SkinnableDataContainer dataProvider="{rooms}" width="100%">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer  width="100%">
+					<s:states>
+						<s:State name="normal" />
+						<s:State name="hovered" />
+						<s:State name="selected" />
+					</s:states>
+					
+					<room:Room xid="{data.id}" xmax="{data.desks}" xplayers="{data.players}" xselected="{data.selected}" />
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+		
+		<s:layout>
+			<s:VerticalLayout gap="1"  />
+		</s:layout>
+	</s:SkinnableDataContainer>
+	
+</s:SkinnableContainer>

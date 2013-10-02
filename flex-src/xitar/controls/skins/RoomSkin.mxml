@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+    	xmlns:fb="http://ns.adobe.com/flashbuilder/2009" >
+
+    <fx:Metadata>
+    <![CDATA[ 
+        [HostComponent("xitar.controls.room.Room")]
+    ]]>
+    </fx:Metadata>
+					
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="hovered" />
+		<s:State name="down" />
+		<s:State name="selected" />
+		<s:State name="normalload" />
+		<s:State name="overload" />
+	</s:states>
+	
+	<s:Rect width="100%" height="100%">
+		<s:stroke>
+			<s:SolidColorStroke color.normal="#666666" color.down="#333333" color.hovered="#999999" color.selected="#333333" />
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color.normal="#666666" color.down="#333333" color.hovered="#999999" color.selected="#333333" />
+		</s:fill>
+	</s:Rect>
+		
+	<s:Label id="roomid" text="{hostComponent.xid}"
+			 fontSize="25" left="7" verticalCenter="4"
+			 color.normal="#cccccc" color.hovered="#333333" color.down="#f8e091" color.selected="#f8e091" />
+	<s:Label id="maxplayers" text="{hostComponent.xplayers}"
+			 fontSize="12" right="3" top="10" 
+			 color.normal="#cccccc" color.hovered="#333333" color.down="#f8e091" color.selected="#f8e091" />
+	<s:Label id="players" text="{hostComponent.xmax}"
+			 fontSize="12" right="3" bottom="6"  
+			 color.normal="#cccccc" color.hovered="#333333" color.down="#f8e091" color.selected="#f8e091"  />
+	
+</s:Skin>

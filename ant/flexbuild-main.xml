@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="flexxitar-flex" basedir="..">
+    <description>
+        mongolian flex chess project build file for flex source.
+    </description>
+
+    <!--  all properties are in build.properties -->
+    <property file="ant/mybuild-main.properties" />
+    <property file="ant/flexbuild-main.properties" />
+
+    <!-- copy flex chess project's swf files to dist ditectory.
+        Because flex builder can auto compile the swf files,so it's not necessary to compile before copy now.
+    -->
+    <target name="copy-flex" >
+        <antcall target="copy-adobe-flex" />
+        <antcall target="copy-project-flex" />
+        <antcall target="copy-related-js" />
+    </target>
+    <target name="copy-adobe-flex" >
+        <copy todir="${swf.adobe.build.dir}">
+            <fileset dir="${swf.adobe.src.dir}">
+                <include name="**/*.swf"/>
+                <exclude name="xitar/**"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="copy-project-flex" >
+        <copy todir="${swf.project.build.dir}"  flatten="true">
+            <fileset dir="${swf.project.src.dir}">
+                <include name="**/*.swf"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="copy-related-js" >
+        <copy todir="${js.build.dir}" flatten="true"  failonerror="false">
+            <fileset dir="${swf.adobe.src.dir}">
+                <include name="*.js"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

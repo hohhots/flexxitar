@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="subversion" basedir="..">
+    <description>
+        Build file for subversion.
+    </description>
+    
+    <!--  all properties are in build.properties -->
+    <property file="ant/mybuild-main.properties" />
+    
+    <property name="in-svn-dirs" value="${ant.dir} ${src.dir} ${flex.src.dir} ${web.dir} ${docs.dir} ${test.dir}"/>
+    
+    <target name="test_run"  depends="build,test_copy"> 
+        <exec executable="svn">
+	    <arg line="commit ${in-svn-dirs}  -m 'commit' "/>
+        </exec>
+    </target>
+        
+    <target name="test_copy"  depends="test_compile">
+        <echo message="${in-svn-dirs}" />
+        <exec executable="svn">
+	    <arg line="status ${in-svn-dirs} "/>
+        </exec>
+    </target>
+    
+    <target name="test_compile">
+        <echo message="${in-svn-dirs}" />
+        <exec executable="svn">
+	    <arg line="status ${in-svn-dirs} "/>
+        </exec>
+    </target>
+</project>

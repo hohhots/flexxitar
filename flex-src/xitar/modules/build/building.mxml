@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s ="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   xmlns:conta="xitar.containers.*" 
+		   xmlns:room="xitar.controls.room.*" 
+		   xmlns:bar="xitar.controls.bars.*"
+		   width="100%" height="100%" creationComplete="xrun()">
+	
+	<fx:Script><![CDATA[
+		import mx.controls.Alert;
+		
+		private var xBuilding : Xbuilding;
+		
+		public function xrun() : void{
+			try {
+				xBuilding = Xbuilding.getInstance(this);
+			} catch (error:Error) {
+				Alert.show(error.message);
+			} finally {}
+		}
+		
+		public function roomClicked():void{
+			desks.visible = true;
+			desks.includeInLayout=true;
+			
+			deskslogo.visible = false;
+			deskslogo.includeInLayout=false;
+		}
+	]]>
+	</fx:Script>
+	
+	<s:SkinnableContainer id="buildingSkin" skinClass="xitar.modules.skins.BuildingSkin" >
+		<bar:titleBar id="roomMainMenu"  />
+		<s:HGroup id="roomsContainer" width="100%" height="100%" gap="1" >
+			<room:Rooms id="rooms" />
+			<room:Desks id="desks" visible="false" includeInLayout="false" />
+			<room:DesksLogo id="deskslogo" visible="true" />
+		</s:HGroup>
+	</s:SkinnableContainer>
+</mx:Module>
